@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordL, login_email;
     private ImageView passShow;
     private CardView login_card;
-    private TextView create_Account,forget_pass,admin;
+    private TextView create_Account,forget_pass;
+    private TextView admin;
 
 
     ProgressDialog progressDialog;
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+
+
 
 
 
@@ -72,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         passwordL = findViewById(R.id.passwordL);
         create_Account = findViewById(R.id.create_Account);
         forget_pass = findViewById(R.id.forget_pass);
-
         admin = findViewById(R.id.admin);
+
+
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -131,12 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         //ADMIN WORK HERE
 
-        admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Work Remaining", Toast.LENGTH_SHORT).show();
-            }
-        });
+       admin.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(MainActivity.this,adminPanall.class);
+               startActivity(intent);
+
+           }
+       });
 
     }
 
