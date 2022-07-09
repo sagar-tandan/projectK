@@ -1,0 +1,196 @@
+package com.example.projectk;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
+
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.projectk.model.Note_Model;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+
+public class Admin_Note extends AppCompatActivity {
+
+    private ImageView back,choose_image;
+    private TextView pdf_text,uploaded_files;
+    private EditText name_pdf;
+    private CardView upload_pdf;
+    private LinearLayoutCompat select_pdf;
+    Uri filepath;
+
+   StorageReference storageReference;
+   DatabaseReference databaseReference;
+
+   ProgressDialog progressDialog;
+
+    //To stop user from uploading file for multiple time
+    private StorageTask uploadTask;
+
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admin_note);
+
+        select_pdf = findViewById(R.id.select_pdf);
+        back = findViewById(R.id.back);
+        choose_image = findViewById(R.id.choose_image);
+        pdf_text = findViewById(R.id.pdf_selector);
+        name_pdf = findViewById(R.id.name_pdf);
+        upload_pdf = findViewById(R.id.upload_pdf);
+        uploaded_files = findViewById(R.id.uploaded_files);
+
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("ProjectK").child("Notes");
+
+
+        //Taking class code from previous activity
+
+        Intent intent = getIntent();
+        String code = intent.getStringExtra("id");
+        String mail = intent.getStringExtra("Mail");
+
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        select_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("application/pdf");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent.createChooser(intent,"Select pdf files...."),101);
+            }
+        });
+
+
+        upload_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //First Check Internet Connection
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+                if ((wifi !=null && wifi.isConnected()) || (mobile != null && mobile.isConnected())) {
+
+
+                    // Restrict admin from uploading multiple file at same time
+
+                    if (uploadTask != null && uploadTask.isInProgress()) {
+                        Toast.makeText(Admin_Note.this, "Cannot upload multiple files at the same time", Toast.LENGTH_SHORT).show();
+                    }else {
+
+                        if (filepath == null) {
+                            Toast.makeText(Admin_Note.this, "Please select the pdf", Toast.LENGTH_SHORT).show();
+                        } else if (name_pdf.getText().toString().trim().isEmpty()) {
+                            name_pdf.setError("Enter the name");
+                        } else {
+                            ProgressDialog progressDialog = new ProgressDialog(Admin_Note.this);
+                            progressDialog.setTitle("File Uploading...");
+                            progressDialog.setCanceledOnTouchOutside(false);
+                            progressDialog.show();
+                            StorageReference reference = storageReference.child("Uploads/" + name_pdf.getText().toString().trim() +System.currentTimeMillis() + ".pdf");
+
+
+                            uploadTask =reference.putFile(filepath)
+                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                            reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    String create_key = databaseReference.push().getKey();
+                                                    Note_Model model = new Note_Model(name_pdf.getText().toString().trim(), code, uri.toString(),mail,code+mail.toLowerCase(),create_key);
+                                                    assert create_key != null;
+                                                    databaseReference.child(create_key).setValue(model);
+
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(Admin_Note.this, "File Uploaded!", Toast.LENGTH_LONG).show();
+
+                                                    choose_image.setImageResource(R.drawable.note);
+                                                    pdf_text.setText("Select Pdf");
+                                                    name_pdf.setText("");
+
+
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                            float total_progress = (float) ((snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) * 100.0);
+                                            progressDialog.setMessage("Uploaded: " + (int) total_progress + "%");
+
+                                        }
+                                    });
+                        }
+                    }
+                }else {
+                    Toast.makeText(Admin_Note.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        //TO show uploaded files
+
+        uploaded_files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Admin_Note.this,Admin_Uploaded_Notes.class);
+                intent1.putExtra("id",code);
+                intent1.putExtra("Mail",mail);
+                startActivity(intent1);
+            }
+        });
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK && data !=null && data.getData() !=null){
+
+            filepath = data.getData();
+            choose_image.setImageResource(R.drawable.pdf);
+            pdf_text.setText("Pdf Selected");
+        }
+    }
+}

@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -21,6 +25,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class adminPanall extends AppCompatActivity {
 
@@ -35,6 +44,23 @@ public class adminPanall extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     ProgressDialog progressDialog;
+
+    DatabaseReference databaseReference;
+
+
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing email.
+    public static final String EMAIL_KEY = "email_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+    String SHemail, SHpassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +78,17 @@ public class adminPanall extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("ProjectK").child("LOGIN");
+
+
+
+        // getting the data which is stored in shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        SHemail = sharedpreferences.getString(EMAIL_KEY, null);
+        SHpassword = sharedpreferences.getString(PASSWORD_KEY, null);
 
 
 
@@ -90,7 +127,18 @@ public class adminPanall extends AppCompatActivity {
         forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(adminPanall.this,forgetPassword.class);
+                startActivity(intent);
 
+            }
+        });
+
+        //Create account
+        create_admin_acc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(adminPanall.this,Admin_SignUp.class);
+                startActivity(intent);
             }
         });
 
@@ -99,39 +147,74 @@ public class adminPanall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email  = login_email.getText().toString().trim();
-                String password  = pass.getText().toString().trim();
+                //Check Internet Connection
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    login_email.setError("Enter the valid Email");
-                    login_email.requestFocus();
-                } else if(email.isEmpty()){
-                    login_email.setError("Email is required");
-                    login_email.requestFocus();
-                }else if(password.isEmpty() || password.length()<8){
-                    pass.setError("Password cannot be empty or less than 8 letters");
-                    pass.requestFocus();
-                } else{
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-                    progressDialog = new ProgressDialog(adminPanall.this);
-                    progressDialog.setMessage("Please wait till Login....");
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.setTitle("LOGIN");
-                    progressDialog.show();
+                if ((wifi !=null && wifi.isConnected()) || (mobile != null && mobile.isConnected())) {
 
-                    firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                    String email = login_email.getText().toString().trim();
+                    String password = pass.getText().toString().trim();
 
-                            if (task.isSuccessful()){
-                                SendAdminToNewActivity();
-                                progressDialog.dismiss();
-                                Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(adminPanall.this, "Failed to login! Please check your credentials", Toast.LENGTH_SHORT).show();
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        login_email.setError("Enter the valid Email");
+                        login_email.requestFocus();
+                    } else if (email.isEmpty()) {
+                        login_email.setError("Email is required");
+                        login_email.requestFocus();
+                    } else if (password.isEmpty() || password.length() < 8) {
+                        pass.setError("Password cannot be empty or less than 8 letters");
+                        pass.requestFocus();
+                    } else {
+
+                        progressDialog = new ProgressDialog(adminPanall.this);
+                        progressDialog.setMessage("Please wait till Login....");
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setTitle("LOGIN");
+                        progressDialog.show();
+
+
+                        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if (task.isSuccessful()) {
+
+                                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        // below two lines will put values for
+                                        // email and password in shared preferences.
+                                        editor.putString(EMAIL_KEY,email);
+                                        editor.putString(PASSWORD_KEY, password);
+
+                                        // to save our data with key and value.
+                                        editor.apply();
+
+                                        progressDialog.dismiss();
+                                        SendAdminToNewActivity();
+                                        Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+
+                                    }else {
+
+                                        Toast.makeText(adminPanall.this, "Please Verify your Email Address! ", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                    }
+
+
+                                } else {
+                                    Toast.makeText(adminPanall.this, "Failed to login! Please check your credentials", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+
+                                }
                             }
-                        }
-                    });
+                        });
+
+                    }
+                }else{
+                    Toast.makeText(adminPanall.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -139,8 +222,19 @@ public class adminPanall extends AppCompatActivity {
     }
 
     private void SendAdminToNewActivity() {
-        Intent intent = new Intent(adminPanall.this,Admin_create_class.class);
+        Intent intent = new Intent(adminPanall.this,AdminInterface.class);
+        intent.putExtra("Email",login_email.getText().toString().trim());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (SHemail != null && SHpassword  != null) {
+            Intent i = new Intent(adminPanall.this, AdminInterface.class);
+            startActivity(i);
+            finish();
+        }
     }
 }

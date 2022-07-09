@@ -3,15 +3,46 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2415" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/background_emailpasss.xml" value="0.1755" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/grad2.xml" value="0.2405" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/gradient1.xml" value="0.2405" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_baseline_picture_as_pdf_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_outline_auto_stories_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_outline_date_range_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_outline_email_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_outline_lock_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/drawable/ic_sharp_arrow_downward_24.xml" value="0.2415" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout-land/activity_admin_note.xml" value="0.19929453262786595" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_assessment.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_create_class.xml" value="0.136" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_interface.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_note.xml" value="0.152" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_notice.xml" value="0.221875" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_panall.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_phone.xml" value="0.221875" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_routine.xml" value="0.221875" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_sign_up.xml" value="0.23541666666666666" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_uploaded_notes.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_forget_password.xml" value="0.221875" />
-        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_pdfviewer.xml" value="0.23541666666666666" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_sign_up.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_user_assessment.xml" value="0.23541666666666666" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_user_note.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_user_notice.xml" value="0.23541666666666666" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_user_panal.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_user_phone.xml" value="0.23541666666666666" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/admin_note_edit.xml" value="0.20199275362318841" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/admin_note_item.xml" value="0.20199275362318841" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_assessment_item.xml" value="0.234375" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_note_item.xml" value="0.176" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_notice_item.xml" value="0.176" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_phone_item.xml" value="0.23541666666666666" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/menu/navigation.xml" value="0.234375" />
       </map>
     </option>
   </component>

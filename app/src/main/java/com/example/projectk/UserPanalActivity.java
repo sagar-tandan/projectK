@@ -1,19 +1,45 @@
 package com.example.projectk;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserPanalActivity extends AppCompatActivity {
 
 
-    private EditText class_code;
-    private CardView enter_class;
-    private ImageView back;
+    ImageView imageView,log_out;
+    TextView room_number;
+    EditText class_code;
+    CardView save_class;
+
+    LinearLayoutCompat routine,notes,notice,assessment,phone;
+
+
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    public static final String CLASS_CODE = "Class_code1";
 
 
     @Override
@@ -21,28 +47,158 @@ public class UserPanalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_panal);
 
+        imageView = findViewById(R.id.pk);
+        room_number = findViewById(R.id.room_number);
+        routine = findViewById(R.id.routine);
+        notes = findViewById(R.id.notes);
+        notice = findViewById(R.id.notice);
+        assessment = findViewById(R.id.assessment);
+        phone = findViewById(R.id.phone);
         class_code = findViewById(R.id.class_code);
-        enter_class = findViewById(R.id.enter_class);
-        back = findViewById(R.id.back);
+        save_class = findViewById(R.id.save_class);
+        log_out = findViewById(R.id.log_out);
 
-        back.setOnClickListener(new View.OnClickListener() {
+
+
+        // getting the data which is stored in shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // Scode = sharedpreferences.getString(CLASS_CODE,null);
+
+
+        class_code.setText(sharedpreferences.getString(CLASS_CODE,null));
+        room_number.setText(sharedpreferences.getString(CLASS_CODE,null));
+
+
+
+        //Check Internet Connection
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if ((wifi !=null && wifi.isConnected()) || (mobile != null && mobile.isConnected())){
+
+        }else{
+            Toast.makeText(UserPanalActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+        save_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                if (class_code.getText().toString().trim().isEmpty()){
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(CLASS_CODE,class_code.getText().toString().trim());
+                    editor.apply();
+                    room_number.setText(class_code.getText().toString().trim());
+                    Toast.makeText(UserPanalActivity.this, "Class Saved!!", Toast.LENGTH_SHORT).show();
+
+
+                }
             }
         });
 
 
-
-
-
-
-        enter_class.setOnClickListener(new View.OnClickListener() {
+        notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sharedpreferences.getString(CLASS_CODE,null) != null){
+                    Intent intent = new Intent(UserPanalActivity.this,User_Note.class);
 
-                // Check if that Class exists in database
+                    intent.putExtra("id",sharedpreferences.getString(CLASS_CODE,null));
+
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sharedpreferences.getString(CLASS_CODE,null) != null){
+                    Intent intent = new Intent(UserPanalActivity.this,User_Phone.class);
+
+                    intent.putExtra("id",sharedpreferences.getString(CLASS_CODE,null));
+
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        assessment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sharedpreferences.getString(CLASS_CODE,null) != null){
+                    Intent intent = new Intent(UserPanalActivity.this,User_Assessment.class);
+
+                    intent.putExtra("id",sharedpreferences.getString(CLASS_CODE,null));
+
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sharedpreferences.getString(CLASS_CODE,null) != null){
+                    Intent intent = new Intent(UserPanalActivity.this,User_Notice.class);
+
+                    intent.putExtra("id",sharedpreferences.getString(CLASS_CODE,null));
+
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(UserPanalActivity.this)
+                        .setTitle("ProjectK")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                FirebaseAuth.getInstance().signOut();
+
+                                SharedPreferences preferences =getSharedPreferences("shared_prefs",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                Intent intent1 = new Intent(UserPanalActivity.this,MainActivity.class);
+                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent1);
+                                finish();
+
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+            }
+
+        });
+
+
+
+        Glide.with(UserPanalActivity.this).load(R.drawable.pkk).into(imageView);
+
     }
 }

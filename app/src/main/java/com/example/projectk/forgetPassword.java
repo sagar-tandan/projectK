@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -22,7 +24,7 @@ public class forgetPassword extends AppCompatActivity {
     private EditText rec_email;
     private CardView recover_btn;
 
-    
+
     ProgressDialog progressDialog;
 
     FirebaseAuth firebaseAuth;
@@ -40,8 +42,6 @@ public class forgetPassword extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,43 +52,52 @@ public class forgetPassword extends AppCompatActivity {
         recover_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = rec_email.getText().toString().trim();
-                
-                
-                
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    rec_email.setError("Enter the valid Email");
 
-                } else if (email.isEmpty()){
-                    rec_email.setError("Email is required");
-                    rec_email.requestFocus();
+                //Check Internet Connection
 
-                }else {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+                if ((wifi != null && wifi.isConnected()) || (mobile != null && mobile.isConnected())) {
+
+                    String email = rec_email.getText().toString().trim();
+
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        rec_email.setError("Enter the valid Email");
+
+                    } else if (email.isEmpty()) {
+                        rec_email.setError("Email is required");
+                        rec_email.requestFocus();
+
+                    } else {
 
 
+                        progressDialog = new ProgressDialog(forgetPassword.this);
+                        progressDialog.setMessage("Sending Verification Mail");
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setTitle("Recover Password");
+                        progressDialog.show();
 
-                    progressDialog = new ProgressDialog(forgetPassword.this);
-                    progressDialog.setMessage("Sending Verification Mail");
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.setTitle("Recover Password");
-                    progressDialog.show();
-                    
-                    
-                    
-                    
-                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                progressDialog.dismiss();
-                                Toast.makeText(forgetPassword.this, "Check your Email to reset your password!", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(forgetPassword.this, "Try Again! Something went wrong!", Toast.LENGTH_SHORT).show();
+
+                        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(forgetPassword.this, "Check your Email to reset your password!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(forgetPassword.this, "Try Again! Something went wrong!", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
-                            
-                        }
-                    });
+                        });
+                    }
+                } else {
+                    Toast.makeText(forgetPassword.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
                 }
+
             }
         });
     }

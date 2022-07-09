@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView passShow;
     private CardView login_card;
     private TextView create_Account,forget_pass;
-    private TextView admin;
+    private CardView admin;
 
 
     ProgressDialog progressDialog;
@@ -122,7 +124,22 @@ public class MainActivity extends AppCompatActivity {
         login_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VerifyUser();
+
+                //Check Internet Connection
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+                if ((wifi !=null && wifi.isConnected()) || (mobile != null && mobile.isConnected())){
+
+                    VerifyUser();
+
+                }else{
+                    Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+                }
+
 
             }
         });

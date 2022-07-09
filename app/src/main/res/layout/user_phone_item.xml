@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp"
+    android:layout_margin="10dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/teacher"
+            android:layout_weight="1.5"
+            app:tint="#6a2c81" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_weight="6.8">
+
+            <TextView
+                android:id="@+id/teacher_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:textSize="17dp"
+                android:singleLine="true"
+                android:layout_marginHorizontal="6dp"
+                android:textColor="#6a2c81"
+                android:textStyle="bold"
+                android:text="Name of Teacher"/>
+
+
+                <TextView
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:layout_marginHorizontal="6dp"
+                    android:textStyle="italic"
+                    android:textColor="#0cc127"
+                    android:text="9860788076"/>
+
+            <TextView
+                android:id="@+id/admin_bhawda"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:layout_marginHorizontal="6dp"
+                android:textStyle="italic"
+                android:text="due date"/>
+
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/phn"
+            android:padding="10dp"
+            android:layout_weight="1.8"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:tint="#6a2c81" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

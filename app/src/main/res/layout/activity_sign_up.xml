@@ -66,7 +66,8 @@
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_outline_email_24" />
+                    android:src="@drawable/email"
+                    app:tint="#6a2c81"/>
 
                 <EditText
                     android:id="@+id/signup_email"
@@ -96,7 +97,8 @@
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_outline_lock_24" />
+                    android:src="@drawable/loock"
+                    app:tint="#6a2c81"/>
 
                 <EditText
                     android:id="@+id/signup_pass"
@@ -136,7 +138,8 @@
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_outline_lock_24" />
+                    android:src="@drawable/loock"
+                    app:tint="#6a2c81"/>
 
                 <EditText
                     android:id="@+id/signup_Cpass"
@@ -164,58 +167,70 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="5dp"
                 android:singleLine="true"
+                android:layout_marginBottom="5dp"
                 android:text="Use 8 or more characters with letters,numbers and symbols..." />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/create_account"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="#572b8a"
+                android:layout_height="match_parent"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="10dp">
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_gravity="center">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Create Account"
+                        android:padding="16dp"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="12dp"
-                    android:text="CREATE ACCOUNT"
-                    android:textColor="@color/white"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
-            </androidx.cardview.widget.CardView>
+                    android:textSize="16dp"
+                    android:text="Already have an account?"/>
 
+                <TextView
+                    android:id="@+id/login_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="#6a2c81"
+                    android:padding="5dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:text="LOGIN"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Already have an account?"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/login_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LOGIN"
-                android:textColor="#800080"
-                android:textSize="20dp"
-                android:padding="15dp"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:textStyle="bold" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

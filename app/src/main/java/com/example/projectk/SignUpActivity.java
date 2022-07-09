@@ -7,6 +7,8 @@ import androidx.cardview.widget.CardView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -17,11 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectk.model.Admin_SignUp_Model;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -37,6 +42,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+
+    DatabaseReference databaseReference;
 
 
 
@@ -60,13 +67,12 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("ProjectK").child("LOGIN").child("User");
 
 
 
 
-
-
-        //Fiunctioning of back button
+        //Functioning of back button
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,8 +111,27 @@ public class SignUpActivity extends AppCompatActivity {
         // CREATE Account Working here
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                acceptEmail_Pass();
+            public void onClick(View view)
+            {
+
+
+                //Check Internet Connection
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+                if ((wifi !=null && wifi.isConnected()) || (mobile != null && mobile.isConnected())){
+
+                    acceptEmail_Pass();
+
+                }else{
+                    Toast.makeText(SignUpActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
             }
         });
     }
@@ -145,20 +170,20 @@ public class SignUpActivity extends AppCompatActivity {
             progressDialog.show();
 
 
-
-
-
                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
+                            Admin_SignUp_Model model = new Admin_SignUp_Model(email,password,"USER");
+                            databaseReference.child(databaseReference.push().getKey()).setValue(model);
+
                             progressDialog.dismiss();
                             SendUserToNextActivity();
                             Toast.makeText(SignUpActivity.this, "Account Created Successfully!", Toast.LENGTH_SHORT).show();
 
                         }else{
                             progressDialog.dismiss();
-                            Toast.makeText(SignUpActivity.this, "Failed to Sign up!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
