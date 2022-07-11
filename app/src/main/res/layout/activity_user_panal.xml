@@ -65,10 +65,11 @@
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:layout_weight="2"
-                android:src="@drawable/lgout"
+                android:src="@drawable/more"
+                android:rotation="90"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="10dp"/>
+                android:padding="12dp"/>
 
         </LinearLayout>
 

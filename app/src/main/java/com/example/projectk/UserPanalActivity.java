@@ -1,9 +1,14 @@
 package com.example.projectk;
 
+import static java.lang.System.exit;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,9 +17,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import androidx.appcompat.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -173,32 +181,83 @@ public class UserPanalActivity extends AppCompatActivity {
 
 
         log_out.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(UserPanalActivity.this)
-                        .setTitle("ProjectK")
-                        .setMessage("Are you sure you want to logout?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                FirebaseAuth.getInstance().signOut();
+//                new AlertDialog.Builder(UserPanalActivity.this)
+//                        .setTitle("ProjectK")
+//                        .setMessage("Are you sure you want to logout?")
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                FirebaseAuth.getInstance().signOut();
+//
+//                                SharedPreferences preferences =getSharedPreferences("shared_prefs",Context.MODE_PRIVATE);
+//                                SharedPreferences.Editor editor = preferences.edit();
+//                                editor.clear();
+//                                editor.apply();
+//                                Intent intent1 = new Intent(UserPanalActivity.this,MainActivity.class);
+//                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(intent1);
+//                                finish();
+//
+//                            }
+//                        })
+//                        .setNegativeButton("No", null)
+//                        .show();
 
-                                SharedPreferences preferences =getSharedPreferences("shared_prefs",Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.clear();
-                                editor.apply();
-                                Intent intent1 = new Intent(UserPanalActivity.this,MainActivity.class);
-                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent1);
-                                finish();
 
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                PopupMenu popupMenu = new PopupMenu(UserPanalActivity.this, view);
+                popupMenu.getMenuInflater().inflate(R.menu.pop_up,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.change){
+
+//                            SharedPreferences preferences =getSharedPreferences("shared_prefs",Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = preferences.edit();
+//                            editor.remove("Class_code1").apply();
+//
+                            Intent intent1 = new Intent(UserPanalActivity.this,Change_Class_Code.class);
+                            startActivity(intent1);
+                            finish();
+                        }
+                        if (menuItem.getItemId() == R.id.LogOut){
+
+
+                        new AlertDialog.Builder(UserPanalActivity.this)
+                            .setTitle("ProjectK")
+                            .setMessage("Are you sure you want to logout?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    FirebaseAuth.getInstance().signOut();
+
+                                    SharedPreferences preferences =getSharedPreferences("shared_prefs",Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.clear();
+                                    editor.apply();
+                                    Intent intent1 = new Intent(UserPanalActivity.this,MainActivity.class);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent1);
+                                    finish();
+
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+
+
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
 
             }
+
 
         });
 
@@ -207,4 +266,6 @@ public class UserPanalActivity extends AppCompatActivity {
         Glide.with(UserPanalActivity.this).load(R.drawable.pkk).into(imageView);
 
     }
+
+
 }

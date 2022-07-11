@@ -31,6 +31,7 @@
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_uploaded_notice.xml" value="0.22010869565217392" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_uploaded_phone.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_admin_uploaded_routine.xml" value="0.22010869565217392" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_change_class_code.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_enter_class_code.xml" value="0.22010869565217392" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_forget_password.xml" value="0.221875" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -59,6 +60,7 @@
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_phone_item.xml" value="0.23541666666666666" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/layout/user_routine_item.xml" value="0.16" />
         <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/menu/navigation.xml" value="0.234375" />
+        <entry key="..\:/Users/CSE/AndroidStudioProjects/ProjectK/app/src/main/res/menu/pop_up.xml" value="0.234375" />
       </map>
     </option>
   </component>

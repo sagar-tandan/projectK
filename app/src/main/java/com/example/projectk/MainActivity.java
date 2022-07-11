@@ -315,12 +315,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
         }else if(Semail != null && Spassword  != null) {
-//           Intent i = new Intent(MainActivity.this, UserPanalActivity.class);
            Intent i = new Intent(MainActivity.this, Enter_class_Code.class);
            startActivity(i);
             finish();
         }else {
-            Toast.makeText(this, "WELCOME!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Welcome To ProjectK", Toast.LENGTH_SHORT).show();
         }
     }
 }

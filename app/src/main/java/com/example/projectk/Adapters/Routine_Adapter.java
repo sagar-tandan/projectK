@@ -1,29 +1,31 @@
 package com.example.projectk.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectk.R;
 import com.example.projectk.model.Routine_Model;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Routine_Adapter extends RecyclerView.Adapter<Routine_Adapter.MyViewholder> {
+
+
 
     Context context;
     List<Routine_Model> list;
@@ -52,7 +54,31 @@ public class Routine_Adapter extends RecyclerView.Adapter<Routine_Adapter.MyView
         holder.date.setText(list.get(position).getDate());
         holder.up.setText(list.get(position).getUpdate());
 
+
+        if(position %4 == 0)
+        {
+            holder.smallColor.setBackgroundColor(Color.parseColor("#E75757"));
+            holder.bigColor.setBackgroundColor(Color.parseColor("#FAE6E7"));
+        }
+        else if(position%4==1)
+        {
+            holder.smallColor.setBackgroundColor(Color.parseColor("#6C5CB7"));
+            holder.bigColor.setBackgroundColor(Color.parseColor("#EEEAFF"));
+        }
+        else if(position%4==2)
+        {
+            holder.smallColor.setBackgroundColor(Color.parseColor("#78AAAA"));
+            holder.bigColor.setBackgroundColor(Color.parseColor("#D7F9F5"));
+        }
+        else{
+            holder.smallColor.setBackgroundColor(Color.parseColor("#976D3D"));
+            holder.bigColor.setBackgroundColor(Color.parseColor("#FCEBDD"));
+        }
+
+
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -61,7 +87,9 @@ public class Routine_Adapter extends RecyclerView.Adapter<Routine_Adapter.MyView
 
     public class MyViewholder extends RecyclerView.ViewHolder {
 
-        TextView admin_bhadwa,routine,time,date,up;
+        TextView admin_bhadwa,routine,time,date,up,smallColor;
+        LinearLayoutCompat bigColor;
+        CardView card;
 
         public MyViewholder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +99,9 @@ public class Routine_Adapter extends RecyclerView.Adapter<Routine_Adapter.MyView
             time = itemView.findViewById(R.id.time);
             date = itemView.findViewById(R.id.date);
             up = itemView.findViewById(R.id.up);
+            smallColor = itemView.findViewById(R.id.smallColor);
+            bigColor = itemView.findViewById(R.id.bigColor);
+            card = itemView.findViewById(R.id.card);
 
         }
     }

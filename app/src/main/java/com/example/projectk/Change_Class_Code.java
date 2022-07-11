@@ -11,7 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-public class Enter_class_Code extends AppCompatActivity {
+public class Change_Class_Code extends AppCompatActivity {
+
 
     CardView enter;
     EditText req_class_code;
@@ -26,11 +27,10 @@ public class Enter_class_Code extends AppCompatActivity {
 
     public static final String CLASS_CODE = "codeOf_class";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_class_code);
+        setContentView(R.layout.activity_change_class_code);
 
         enter = findViewById(R.id.enter);
         req_class_code = findViewById(R.id.code);
@@ -53,7 +53,6 @@ public class Enter_class_Code extends AppCompatActivity {
             }
         });
 
-
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +64,7 @@ public class Enter_class_Code extends AppCompatActivity {
                     editor.putString(CLASS_CODE, req_class_code.getText().toString().trim());
                     editor.apply();
 
-                    Intent intent = new Intent(Enter_class_Code.this, UserPanalActivity.class);
+                    Intent intent = new Intent(Change_Class_Code.this, UserPanalActivity.class);
                     intent.putExtra("code_of_class", sharedPreferences.getString(CLASS_CODE, null));
                     startActivity(intent);
                     finish();
@@ -74,15 +73,4 @@ public class Enter_class_Code extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (enter_class != null) {
-            Intent i = new Intent(Enter_class_Code.this, UserPanalActivity.class);
-            i.putExtra("code_of_class",sharedPreferences.getString(CLASS_CODE, null));
-            startActivity(i);
-            finish();
-        }
-    }
 }

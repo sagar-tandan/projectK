@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <item
+                android:id="@+id/change"
+                android:icon="@drawable/cl"
+                android:title="Change Class" />
+            <item
+                android:id="@+id/LogOut"
+                android:icon="@drawable/lgo"
+                android:title="Log Out" />
+
+
+</menu>

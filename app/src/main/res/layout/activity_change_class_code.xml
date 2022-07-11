@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Enter_class_Code">
-
+    tools:context=".Change_Class_Code">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -28,13 +27,13 @@
             android:src="@drawable/ic_baseline_arrow_back_24" />
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter the Class Code"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="#800080"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Class Code"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#800080"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -60,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="9"
                 android:background="@null"
-                android:hint="Class Code"
+                android:hint="Enter Class Code"
                 android:inputType="text"
                 android:padding="5dp"
                 android:singleLine="true" />
@@ -102,6 +101,5 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
