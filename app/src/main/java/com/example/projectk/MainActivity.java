@@ -24,13 +24,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectk.model.Admin_SignUp_Model;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,22 +54,28 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
+    DatabaseReference reference;
+
 
 
 
 
     // creating constant keys for shared preferences.
-    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String SHARED_PREFS1 = "shared_prefs";
 
     // key for storing email.
-    public static final String EMAIL_KEY = "email_key";
+    public static final String EMAIL_KEY1 = "email_key";
 
     // key for storing password.
-    public static final String PASSWORD_KEY = "password_key";
+    public static final String PASSWORD_KEY1 = "password_key";
+
+    public static final String ENTER_KEY = "enter_key";
 
     // variable for shared preferences.
-    SharedPreferences sharedpreferences;
-    String SHemail, SHpassword;
+    SharedPreferences sharedpreferences0;
+    String Semail, Spassword,enter;
+
+    String check,e,p;
 
 
 
@@ -89,17 +101,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         // getting the data which is stored in shared preferences.
-        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedpreferences0 = getSharedPreferences(SHARED_PREFS1, Context.MODE_PRIVATE);
 
         // in shared prefs inside het string method
         // we are passing key value as EMAIL_KEY and
         // default value is
         // set to null if not present.
-        SHemail = sharedpreferences.getString(EMAIL_KEY, null);
-        SHpassword = sharedpreferences.getString(PASSWORD_KEY, null);
+        Semail = sharedpreferences0.getString(EMAIL_KEY1, null);
+        Spassword = sharedpreferences0.getString(PASSWORD_KEY1, null);
+        enter = sharedpreferences0.getString(ENTER_KEY, null);
+       // Spassword = sharedpreferences0.getString(PASSWORD_KEY1, null);
 
 
 
+        reference = FirebaseDatabase.getInstance().getReference().child("ProjectK").child("LOGIN");
 
 
 
@@ -147,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         forget_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(MainActivity.this,forgetPassword.class);
                 startActivity(intent);
             }
@@ -157,6 +173,16 @@ public class MainActivity extends AppCompatActivity {
        admin.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
+
+               SharedPreferences.Editor editor = sharedpreferences0.edit();
+
+               editor.putString(ENTER_KEY,"ADMIN");
+
+               // to save our data with key and value.
+               editor.apply();
+
+
                Intent intent = new Intent(MainActivity.this,adminPanall.class);
                startActivity(intent);
 
@@ -213,21 +239,51 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        progressDialog.dismiss();
 
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                       // List<Admin_SignUp_Model> list;
 
-                        // below two lines will put values for
-                        // email and password in shared preferences.
-                        editor.putString(EMAIL_KEY,email);
-                        editor.putString(PASSWORD_KEY, password);
+                         reference.child("User").orderByChild("who").addValueEventListener(new ValueEventListener() {
+                             @Override
+                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                     Admin_SignUp_Model model = snapshot1.getValue(Admin_SignUp_Model.class);
+                                     check = model.getWho();
+                                     e = model.getEmail();
+                                     p = model.getPassword();
+                                   //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
+                                     if (check.equals("USER") && e.equals(email)) {
 
-                        // to save our data with key and value.
-                        editor.apply();
+                             progressDialog.dismiss();
 
-                        SendUserToNextActivity();
+                             SharedPreferences.Editor editor = sharedpreferences0.edit();
 
-                        Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                             // below two lines will put values for
+                             // email and password in shared preferences.
+                             editor.putString(EMAIL_KEY1, email);
+                             editor.putString(PASSWORD_KEY1, password);
+
+                             // to save our data with key and value.
+                             editor.apply();
+
+                             SendUserToNextActivity();
+
+                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                         }else {
+                                         progressDialog.dismiss();
+                             Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
+                         }
+
+                                 }
+
+                             }
+
+                             @Override
+                             public void onCancelled(@NonNull DatabaseError error) {
+
+                             }
+                         });
+
+
                     }else{
                         progressDialog.dismiss();
                         Toast.makeText(MainActivity.this, "Failed to login! Please check your credentials", Toast.LENGTH_SHORT).show();
@@ -241,19 +297,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void SendUserToNextActivity() {
 
-        Intent intent = new Intent(MainActivity.this,UserPanalActivity.class);
+      //  Intent intent = new Intent(MainActivity.this,UserPanalActivity.class);
+        Intent intent = new Intent(MainActivity.this,Enter_class_Code.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (SHemail != null && SHpassword  != null) {
-            Intent i = new Intent(MainActivity.this, UserPanalActivity.class);
+        if (enter!=null){
+            Intent i = new Intent(MainActivity.this, adminPanall.class);
+           // Toast.makeText(this, enter, Toast.LENGTH_SHORT).show();
             startActivity(i);
             finish();
+
+        }else if(Semail != null && Spassword  != null) {
+//           Intent i = new Intent(MainActivity.this, UserPanalActivity.class);
+           Intent i = new Intent(MainActivity.this, Enter_class_Code.class);
+           startActivity(i);
+            finish();
+        }else {
+            Toast.makeText(this, "WELCOME!", Toast.LENGTH_SHORT).show();
         }
     }
 }

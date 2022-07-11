@@ -53,10 +53,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:singleLine="true"
-                android:textStyle="italic"
-                android:textSize="16dp"
-                android:text="Admin can use same account to login as user!" />
+                android:layout_marginBottom="5dp"
+                android:textColor="#ff0000"
+                android:text="To verify, please visit spam section if mail didn't arrives!" />
+
 
 
 
@@ -172,15 +174,6 @@
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:singleLine="true"
-                android:layout_marginBottom="5dp"
-                android:textColor="#ff0000"
-                android:text="To verify, please visit spam section if mail didn't arrives!" />
 
 
 

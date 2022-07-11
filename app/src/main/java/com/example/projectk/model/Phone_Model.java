@@ -2,16 +2,18 @@ package com.example.projectk.model;
 
 public class Phone_Model {
 
-    String phone_no,teacher_name,id,admin;
+    String phone_no,teacher_name,id,admin,id_with_admin,key;
 
     public Phone_Model() {
     }
 
-    public Phone_Model(String phone_no, String teacher_name, String id, String admin) {
+    public Phone_Model(String phone_no, String teacher_name, String id, String admin, String id_with_admin, String key) {
         this.phone_no = phone_no;
         this.teacher_name = teacher_name;
         this.id = id;
         this.admin = admin;
+        this.id_with_admin = id_with_admin;
+        this.key = key;
     }
 
     public String getPhone_no() {
@@ -44,5 +46,21 @@ public class Phone_Model {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+
+    public String getId_with_admin() {
+        return id_with_admin;
+    }
+
+    public void setId_with_admin(String id_with_admin) {
+        this.id_with_admin = id_with_admin;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

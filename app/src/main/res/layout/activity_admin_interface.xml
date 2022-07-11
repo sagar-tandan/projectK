@@ -87,7 +87,7 @@
                 android:layout_weight="6"
                 android:background="@drawable/background_emailpasss"
                 android:hint="Class Code"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_margin="5dp"
                 android:singleLine="true" />
 

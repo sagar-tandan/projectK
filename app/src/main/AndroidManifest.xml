@@ -21,6 +21,27 @@
         android:theme="@style/Theme.ProjectK"
         tools:targetApi="31">
         <activity
+            android:name=".Enter_class_Code"
+            android:exported="false" />
+        <activity
+            android:name=".Admin_Uploaded_Routine"
+            android:exported="false" />
+        <activity
+            android:name=".User_Routine"
+            android:exported="false" />
+        <activity
+            android:name=".Admin_Uploaded_Notice"
+            android:exported="false" />
+        <activity
+            android:name=".Admin_Uploaded_phone"
+            android:exported="false" />
+        <activity
+            android:name=".User_Login_Panel"
+            android:exported="false" />
+        <activity
+            android:name=".Admin_Uploaded_Assignment"
+            android:exported="false" />
+        <activity
             android:name=".Admin_Uploaded_Notes"
             android:exported="false" />
         <activity

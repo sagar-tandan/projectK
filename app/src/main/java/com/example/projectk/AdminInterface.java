@@ -1,8 +1,10 @@
 package com.example.projectk;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,8 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.projectk.Adapters.Note_Adapter;
+import com.example.projectk.model.Note_Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class AdminInterface extends AppCompatActivity {
 
@@ -34,6 +45,8 @@ public class AdminInterface extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+
+
 
 
 
@@ -93,6 +106,7 @@ public class AdminInterface extends AppCompatActivity {
 
 
 
+
         //Check Internet Connection
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -113,6 +127,7 @@ public class AdminInterface extends AppCompatActivity {
             public void onClick(View view) {
                 if (class_code.getText().toString().trim().isEmpty()){
                     Toast.makeText(AdminInterface.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(AdminInterface.this,""+sharedpreferences.getString(EMAIL_HERE,code), Toast.LENGTH_SHORT).show();
                 }else{
 
                     SharedPreferences.Editor editor = sharedpreferences.edit();

@@ -26,8 +26,6 @@ public class UserPanalActivity extends AppCompatActivity {
 
     ImageView imageView,log_out;
     TextView room_number;
-    EditText class_code;
-    CardView save_class;
 
     LinearLayoutCompat routine,notes,notice,assessment,phone;
 
@@ -54,8 +52,6 @@ public class UserPanalActivity extends AppCompatActivity {
         notice = findViewById(R.id.notice);
         assessment = findViewById(R.id.assessment);
         phone = findViewById(R.id.phone);
-        class_code = findViewById(R.id.class_code);
-        save_class = findViewById(R.id.save_class);
         log_out = findViewById(R.id.log_out);
 
 
@@ -66,8 +62,20 @@ public class UserPanalActivity extends AppCompatActivity {
         // Scode = sharedpreferences.getString(CLASS_CODE,null);
 
 
-        class_code.setText(sharedpreferences.getString(CLASS_CODE,null));
+       // class_code.setText(sharedpreferences.getString(CLASS_CODE,null));
         room_number.setText(sharedpreferences.getString(CLASS_CODE,null));
+
+
+
+
+        Intent intent = getIntent();
+        String Code_of_class = intent.getStringExtra("code_of_class");
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        // editor.putString(CLASS_CODE,class_code.getText().toString().trim());
+        editor.putString(CLASS_CODE,Code_of_class);
+        editor.apply();
+        room_number.setText(Code_of_class);
 
 
 
@@ -85,24 +93,6 @@ public class UserPanalActivity extends AppCompatActivity {
         }
 
 
-        save_class.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (class_code.getText().toString().trim().isEmpty()){
-                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
-                }else{
-
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(CLASS_CODE,class_code.getText().toString().trim());
-                    editor.apply();
-                    room_number.setText(class_code.getText().toString().trim());
-                    Toast.makeText(UserPanalActivity.this, "Class Saved!!", Toast.LENGTH_SHORT).show();
-
-
-                }
-            }
-        });
-
 
         notes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +104,7 @@ public class UserPanalActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }else{
-                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -130,7 +120,7 @@ public class UserPanalActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }else{
-                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,7 +136,7 @@ public class UserPanalActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }else{
-                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -161,10 +151,26 @@ public class UserPanalActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }else{
-                    Toast.makeText(UserPanalActivity.this, "Please create class", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        routine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sharedpreferences.getString(CLASS_CODE,null) != null){
+                    Intent intent = new Intent(UserPanalActivity.this,User_Routine.class);
+
+                    intent.putExtra("id",sharedpreferences.getString(CLASS_CODE,null));
+
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(UserPanalActivity.this, "Please enter the Class Code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override

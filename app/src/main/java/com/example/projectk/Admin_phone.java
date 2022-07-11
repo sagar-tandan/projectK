@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectk.model.Phone_Model;
@@ -26,6 +27,7 @@ public class Admin_phone extends AppCompatActivity {
     private ImageView back;
     private EditText name_teacher,phone_no;
     private CardView upload_phone;
+    private TextView uploaded_files;
 
     DatabaseReference databaseReference;
 
@@ -40,6 +42,7 @@ public class Admin_phone extends AppCompatActivity {
         name_teacher = findViewById(R.id.name_teacher);
         phone_no = findViewById(R.id.phone_no);
         upload_phone = findViewById(R.id.upload_phone);
+        uploaded_files = findViewById(R.id.uploaded_files);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("ProjectK").child("Phone");
 
@@ -78,8 +81,12 @@ public class Admin_phone extends AppCompatActivity {
                         phone_no.setError("Enter phone no.");
                     } else {
 
-                        Phone_Model model = new Phone_Model(phone_no.getText().toString().trim(), name_teacher.getText().toString().trim(), code,mail);
-                        databaseReference.child(databaseReference.push().getKey()).setValue(model)
+                        String key = databaseReference.push().getKey();
+
+                        Phone_Model model = new Phone_Model(phone_no.getText().toString().trim(),
+                                name_teacher.getText().toString().trim(), code,mail,code+mail.toLowerCase(),key);
+                        assert key != null;
+                        databaseReference.child(key).setValue(model)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
@@ -99,6 +106,18 @@ public class Admin_phone extends AppCompatActivity {
                     Toast.makeText(Admin_phone.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        //TO show uploaded files
+
+        uploaded_files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Admin_phone.this,Admin_Uploaded_phone.class);
+                intent1.putExtra("id",code);
+                intent1.putExtra("Mail",mail);
+                startActivity(intent1);
             }
         });
     }

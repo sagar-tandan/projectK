@@ -42,7 +42,7 @@ import java.util.Calendar;
 public class Admin_Notice extends AppCompatActivity {
 
     private ImageView back,choose_image,show_demo_image;
-    private TextView name;
+    private TextView name,uploaded_files;
     private EditText notice_detail,hashtag,link;
     private CardView upload_notice;
 
@@ -78,6 +78,7 @@ public class Admin_Notice extends AppCompatActivity {
         link = findViewById(R.id.link);
         upload_notice = findViewById(R.id.upload_pdf);
         select_image = findViewById(R.id.select_image);
+        uploaded_files = findViewById(R.id.uploaded_files);
 
         LocalDate today = LocalDate.now(ZoneId.of("America/Hermosillo"));
 
@@ -163,10 +164,12 @@ public class Admin_Notice extends AppCompatActivity {
                                             reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
+
+                                                    String key = databaseReference.push().getKey();
                                                     Notice_Model model = new Notice_Model(uri.toString(),code,notice_detail.getText().toString().trim(),
                                                             link.getText().toString().trim(),hashtag.getText().toString().trim(),
-                                                            today.format(userFormatter),sdf.format(c.getTime()),mail);
-                                                    databaseReference.child(databaseReference.push().getKey()).setValue(model);
+                                                            today.format(userFormatter),sdf.format(c.getTime()),mail,code+mail.toLowerCase(),key);
+                                                    databaseReference.child(key).setValue(model);
 
                                                     progressDialog.dismiss();
                                                     Toast.makeText(Admin_Notice.this, "Notice Uploaded!", Toast.LENGTH_LONG).show();
@@ -196,6 +199,16 @@ public class Admin_Notice extends AppCompatActivity {
                 }else {
                     Toast.makeText(Admin_Notice.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        uploaded_files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Admin_Notice.this,Admin_Uploaded_Notice.class);
+                intent1.putExtra("id",code);
+                intent1.putExtra("Mail",mail);
+                startActivity(intent1);
             }
         });
 

@@ -1,48 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Enter_class_Code">
 
-    <ScrollView
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:paddingBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the Class Code"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:textColor="#800080"/>
+
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="Update Note Name"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:background="#3254A8"
-            android:textColor="#fff"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_emailpasss"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
 
 
         <EditText
-            android:id="@+id/edit_title"
+            android:id="@+id/code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title of Pdf"
-            android:layout_margin="10dp"
-            android:textSize="20sp"/>
+            android:layout_height="match_parent"
+            android:hint="Class Code"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:background="@null" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/update"
+            android:id="@+id/enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="15dp"
@@ -51,12 +67,12 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/grad2">
+                android:background="@drawable/gradient1">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Update"
+                    android:text="Enter Class"
                     android:padding="16dp"
                     android:textStyle="bold"
                     android:textSize="16dp"
@@ -69,8 +85,6 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

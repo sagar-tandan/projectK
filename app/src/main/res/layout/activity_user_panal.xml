@@ -72,58 +72,6 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-
-            <EditText
-                android:id="@+id/class_code"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:background="@drawable/background_emailpasss"
-                android:hint="Class Code"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:singleLine="true" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/save_class"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#572b8a"
-                android:clickable="true"
-                android:layout_weight="4"
-                android:layout_margin="8dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="4dp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Enter"
-                        android:padding="16dp"
-                        android:textStyle="bold"
-                        android:textSize="16dp"
-                        android:gravity="center"
-                        android:textColor="@color/white"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            </androidx.cardview.widget.CardView>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

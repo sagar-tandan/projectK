@@ -2,12 +2,13 @@ package com.example.projectk.model;
 
 public class Notice_Model {
 
-    String imageUrl,id,notice,link,hashtag,date,time,admin;
+    String imageUrl,id,notice,link,hashtag,date,time,admin,id_with_admin,key;
 
     public Notice_Model() {
     }
 
-    public Notice_Model(String imageUrl, String id, String notice, String link, String hashtag, String date, String time, String admin) {
+    public Notice_Model(String imageUrl, String id, String notice, String link,
+                        String hashtag, String date, String time, String admin, String id_with_admin, String key) {
         this.imageUrl = imageUrl;
         this.id = id;
         this.notice = notice;
@@ -16,6 +17,8 @@ public class Notice_Model {
         this.date = date;
         this.time = time;
         this.admin = admin;
+        this.id_with_admin = id_with_admin;
+        this.key = key;
     }
 
     public String getImageUrl() {
@@ -80,5 +83,21 @@ public class Notice_Model {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+
+    public String getId_with_admin() {
+        return id_with_admin;
+    }
+
+    public void setId_with_admin(String id_with_admin) {
+        this.id_with_admin = id_with_admin;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

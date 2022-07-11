@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:src="@drawable/delete"
+            android:src="@drawable/del"
             android:padding="3dp"
             app:tint="#3254A8"
             android:foreground="?android:attr/selectableItemBackground"

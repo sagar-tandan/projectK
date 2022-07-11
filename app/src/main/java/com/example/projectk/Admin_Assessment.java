@@ -34,7 +34,7 @@ public class Admin_Assessment extends AppCompatActivity {
 
 
     private ImageView back,choose_image;
-    private TextView pdf_text;
+    private TextView pdf_text,uploaded_files;
     private EditText name_pdf,due_date;
     private CardView upload_pdf;
     private LinearLayoutCompat select_pdf;
@@ -65,6 +65,7 @@ public class Admin_Assessment extends AppCompatActivity {
         name_pdf = findViewById(R.id.name_pdf);
         upload_pdf = findViewById(R.id.upload_pdf);
         due_date = findViewById(R.id.due_date);
+        uploaded_files = findViewById(R.id.uploaded_files);
 
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -138,8 +139,11 @@ public class Admin_Assessment extends AppCompatActivity {
                                             reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
-                                                    Assessment_Model model = new Assessment_Model(name_pdf.getText().toString().trim(), code, uri.toString(), "Submission date: " + due_date.getText().toString().trim(),mail);
-                                                    databaseReference.child(databaseReference.push().getKey()).setValue(model);
+                                                    String create_key = databaseReference.push().getKey();
+                                                    Assessment_Model model = new Assessment_Model(name_pdf.getText().toString().trim(),
+                                                            code, uri.toString(), "Submission date: " + due_date.getText().toString().trim(),mail,code + mail,create_key);
+                                                    assert create_key != null;
+                                                    databaseReference.child(create_key).setValue(model);
 
                                                     progressDialog.dismiss();
                                                     Toast.makeText(Admin_Assessment.this, "File Uploaded!", Toast.LENGTH_LONG).show();
@@ -167,6 +171,20 @@ public class Admin_Assessment extends AppCompatActivity {
                 }else {
                     Toast.makeText(Admin_Assessment.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+
+
+        //TO show uploaded files
+
+        uploaded_files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Admin_Assessment.this,Admin_Uploaded_Assignment.class);
+                intent1.putExtra("id",code);
+                intent1.putExtra("Mail",mail);
+                startActivity(intent1);
             }
         });
     }

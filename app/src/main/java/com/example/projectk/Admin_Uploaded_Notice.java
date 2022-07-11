@@ -16,9 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.projectk.Adapters.Admin_Note_Adapter;
-import com.example.projectk.Adapters.Note_Adapter;
-import com.example.projectk.model.Note_Model;
+import com.example.projectk.Adapters.Admin_Ass_Adapter;
+import com.example.projectk.Adapters.Admin_Notice_Adapter;
+import com.example.projectk.model.Assessment_Model;
+import com.example.projectk.model.Notice_Model;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Admin_Uploaded_Notes extends AppCompatActivity {
+public class Admin_Uploaded_Notice extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
@@ -40,16 +41,16 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
 
     private DatabaseReference reference;
 
-    private List<Note_Model> list;
+    private List<Notice_Model> list;
 
-    private Admin_Note_Adapter adapter;
+    private Admin_Notice_Adapter adapter;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_uploaded_notes);
+        setContentView(R.layout.activity_admin_uploaded_notice);
 
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -66,7 +67,7 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
         });
 
 
-        reference = FirebaseDatabase.getInstance().getReference().child("ProjectK").child("Notes");
+        reference = FirebaseDatabase.getInstance().getReference().child("ProjectK").child("Notices");
 
 
         //Check Internet Connection
@@ -88,7 +89,7 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
             });
 
         }else{
-            Toast.makeText(Admin_Uploaded_Notes.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Admin_Uploaded_Notice.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -101,8 +102,8 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
         String codeNo = intent.getStringExtra("id");
         String Upload_email = intent.getStringExtra("Mail");
 
-        ProgressDialog progressDialog = new ProgressDialog(Admin_Uploaded_Notes.this);
-        progressDialog.setTitle("Notes");
+        ProgressDialog progressDialog = new ProgressDialog(Admin_Uploaded_Notice.this);
+        progressDialog.setTitle("Notices");
         progressDialog.setMessage("Fetching data....");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -115,14 +116,14 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
                 list = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
 
-                    Note_Model m = snapshot1.getValue(Note_Model.class);
+                    Notice_Model m = snapshot1.getValue(Notice_Model.class);
                     list.add(m);
                     no_data_found.setText("");
                 }
 
 
-                adapter = new Admin_Note_Adapter(Admin_Uploaded_Notes.this,list);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Admin_Uploaded_Notes.this);
+                adapter = new Admin_Notice_Adapter(Admin_Uploaded_Notice.this,list);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(Admin_Uploaded_Notice.this);
                 layoutManager.setReverseLayout(true);
                 layoutManager.setStackFromEnd(true);
                 recyclerView.setLayoutManager(layoutManager);
@@ -132,7 +133,7 @@ public class Admin_Uploaded_Notes extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Admin_Uploaded_Notes.this, "No such class exists", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Admin_Uploaded_Notice.this, "No such class exists", Toast.LENGTH_SHORT).show();
             }
         });
 

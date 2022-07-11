@@ -182,11 +182,12 @@ public class adminPanall extends AppCompatActivity {
 
                                 if (task.isSuccessful()) {
 
-                                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                                    if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         // below two lines will put values for
                                         // email and password in shared preferences.
-                                        editor.putString(EMAIL_KEY,email);
+                                        editor.putString(EMAIL_KEY, email);
                                         editor.putString(PASSWORD_KEY, password);
 
                                         // to save our data with key and value.
@@ -195,7 +196,6 @@ public class adminPanall extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         SendAdminToNewActivity();
                                         Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
 
                                     }else {
 
@@ -233,6 +233,7 @@ public class adminPanall extends AppCompatActivity {
 
         if (SHemail != null && SHpassword  != null) {
             Intent i = new Intent(adminPanall.this, AdminInterface.class);
+            i.putExtra("Email",sharedpreferences.getString(EMAIL_KEY,null));
             startActivity(i);
             finish();
         }

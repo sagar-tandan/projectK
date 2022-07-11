@@ -59,6 +59,4 @@ dependencies {
 
     implementation 'com.orhanobut:dialogplus:1.11@aar'
 
-    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
-
 }
