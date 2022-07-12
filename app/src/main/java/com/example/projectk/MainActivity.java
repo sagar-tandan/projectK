@@ -242,46 +242,54 @@ public class MainActivity extends AppCompatActivity {
 
                        // List<Admin_SignUp_Model> list;
 
-                         reference.child("User").orderByChild("who").addValueEventListener(new ValueEventListener() {
-                             @Override
-                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                     Admin_SignUp_Model model = snapshot1.getValue(Admin_SignUp_Model.class);
-                                     check = model.getWho();
-                                     e = model.getEmail();
-                                     p = model.getPassword();
-                                   //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
-                                     if (check.equals("USER") && e.equals(email)) {
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()) {
 
-                             progressDialog.dismiss();
+                            reference.child("User").orderByChild("who").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                        Admin_SignUp_Model model = snapshot1.getValue(Admin_SignUp_Model.class);
+                                        check = model.getWho();
+                                        e = model.getEmail();
+                                        p = model.getPassword();
+                                        //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
+                                        if (check.equals("USER") && e.equals(email)) {
 
-                             SharedPreferences.Editor editor = sharedpreferences0.edit();
+                                            progressDialog.dismiss();
 
-                             // below two lines will put values for
-                             // email and password in shared preferences.
-                             editor.putString(EMAIL_KEY1, email);
-                             editor.putString(PASSWORD_KEY1, password);
+                                            SharedPreferences.Editor editor = sharedpreferences0.edit();
 
-                             // to save our data with key and value.
-                             editor.apply();
+                                            // below two lines will put values for
+                                            // email and password in shared preferences.
+                                            editor.putString(EMAIL_KEY1, email);
+                                            editor.putString(PASSWORD_KEY1, password);
 
-                             SendUserToNextActivity();
+                                            // to save our data with key and value.
+                                            editor.apply();
 
-                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                         }else {
-                                         progressDialog.dismiss();
-                             Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
-                         }
+                                            SendUserToNextActivity();
 
-                                 }
+                                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
+                                        }
 
-                             }
+                                    }
 
-                             @Override
-                             public void onCancelled(@NonNull DatabaseError error) {
+                                }
 
-                             }
-                         });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else
+                        {
+                            Toast.makeText(MainActivity.this, "Please Verify your Email Address! ", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
 
 
                     }else{
@@ -315,9 +323,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
         }else if(Semail != null && Spassword  != null) {
-           Intent i = new Intent(MainActivity.this, Enter_class_Code.class);
-           startActivity(i);
-            finish();
+            if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                Intent i = new Intent(MainActivity.this, Enter_class_Code.class);
+                startActivity(i);
+                finish();
+            }
         }else {
             Toast.makeText(this, "Welcome To ProjectK", Toast.LENGTH_SHORT).show();
         }

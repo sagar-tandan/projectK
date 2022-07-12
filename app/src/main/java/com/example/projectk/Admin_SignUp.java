@@ -178,12 +178,15 @@ public class Admin_SignUp extends AppCompatActivity {
 
                                         if (task.isSuccessful()){
 
-                                            Admin_SignUp_Model model = new Admin_SignUp_Model(email,password,"ADMIN");
+                                            Admin_SignUp_Model model = new Admin_SignUp_Model(email,"********","ADMIN");
                                             databaseReference.child(databaseReference.push().getKey()).setValue(model);
-                                            SendUserToNextActivity();
+
                                             Toast.makeText(Admin_SignUp.this,
                                                     "Account Created. Please Check your email for verification",
                                                     Toast.LENGTH_SHORT).show();
+
+                                            SendUserToNextActivity();
+
 
                                         }else {
                                             Toast.makeText(Admin_SignUp.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

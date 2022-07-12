@@ -174,12 +174,30 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Admin_SignUp_Model model = new Admin_SignUp_Model(email,password,"USER");
-                            databaseReference.child(databaseReference.push().getKey()).setValue(model);
-
                             progressDialog.dismiss();
-                            SendUserToNextActivity();
-                            Toast.makeText(SignUpActivity.this, "Account Created Successfully!", Toast.LENGTH_SHORT).show();
+
+                            firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()){
+
+                                        Admin_SignUp_Model model = new Admin_SignUp_Model(email,"********","USER");
+                                        databaseReference.child(databaseReference.push().getKey()).setValue(model);
+                                        Toast.makeText(SignUpActivity.this,
+                                                "Account Created. Please Check your email for verification",
+                                                Toast.LENGTH_SHORT).show();
+
+                                        SendUserToNextActivity();
+
+
+                                    }else {
+                                        Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
 
                         }else{
                             progressDialog.dismiss();

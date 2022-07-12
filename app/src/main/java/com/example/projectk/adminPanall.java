@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectk.model.Admin_SignUp_Model;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -60,6 +61,8 @@ public class adminPanall extends AppCompatActivity {
     // variable for shared preferences.
     SharedPreferences sharedpreferences;
     String SHemail, SHpassword;
+
+    String check,e,p;
 
 
     @Override
@@ -184,18 +187,47 @@ public class adminPanall extends AppCompatActivity {
 
                                     if (firebaseAuth.getCurrentUser().isEmailVerified()) {
 
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        // below two lines will put values for
-                                        // email and password in shared preferences.
-                                        editor.putString(EMAIL_KEY, email);
-                                        editor.putString(PASSWORD_KEY, password);
 
-                                        // to save our data with key and value.
-                                        editor.apply();
+                                        databaseReference.child("Admin").orderByChild("who").addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        progressDialog.dismiss();
-                                        SendAdminToNewActivity();
-                                        Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                                    Admin_SignUp_Model model = snapshot1.getValue(Admin_SignUp_Model.class);
+                                                    check = model.getWho();
+                                                    e = model.getEmail();
+                                                    p = model.getPassword();
+                                                    //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
+                                                    if (check.equals("ADMIN") && e.equals(email)) {
+
+                                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                                        // below two lines will put values for
+                                                        // email and password in shared preferences.
+                                                        editor.putString(EMAIL_KEY, email);
+                                                        editor.putString(PASSWORD_KEY, password);
+
+                                                        // to save our data with key and value.
+                                                        editor.apply();
+
+                                                        progressDialog.dismiss();
+                                                        SendAdminToNewActivity();
+                                                        Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        progressDialog.dismiss();
+                                                        Toast.makeText(adminPanall.this, "Not an Admin Account!", Toast.LENGTH_SHORT).show();
+                                                    }
+
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(adminPanall.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
 
                                     }else {
 
@@ -232,10 +264,14 @@ public class adminPanall extends AppCompatActivity {
         super.onStart();
 
         if (SHemail != null && SHpassword  != null) {
-            Intent i = new Intent(adminPanall.this, AdminInterface.class);
-            i.putExtra("Email",sharedpreferences.getString(EMAIL_KEY,null));
-            startActivity(i);
-            finish();
+
+            if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                Intent i = new Intent(adminPanall.this, AdminInterface.class);
+                i.putExtra("Email",sharedpreferences.getString(EMAIL_KEY,null));
+                startActivity(i);
+                finish();
+            }
+
         }
     }
 }

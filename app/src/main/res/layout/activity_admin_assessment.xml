@@ -52,14 +52,14 @@
             android:layout_margin="10dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="4dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
             android:layout_gravity="center">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/select_pdf"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:orientation="vertical">
 
                 <ImageView
