@@ -1,5 +1,6 @@
 package com.example.projectk.Adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectk.Notification.FcmNotificationsSender;
 import com.example.projectk.R;
 import com.example.projectk.model.Routine_Model;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -112,6 +114,7 @@ public class Admin_Routine_Adapter extends RecyclerView.Adapter<Admin_Routine_Ad
                                         public void onSuccess(Void unused) {
                                             dialogPlus.dismiss();
                                             Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show();
+                                           // notification(update1);
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -152,6 +155,15 @@ public class Admin_Routine_Adapter extends RecyclerView.Adapter<Admin_Routine_Ad
 
 
     }
+
+//    private void notification(String upd) {
+//        double one = Float.parseFloat(upd) + 1.0;
+//        String  str = String.valueOf(one);
+//
+//        FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all","ROUTINE",
+//                "Routine Update " +str+ "!!",context.getApplicationContext(), (Activity) context);
+//        notificationsSender.SendNotifications();
+//    }
 
     @Override
     public int getItemCount() {

@@ -198,24 +198,32 @@ public class adminPanall extends AppCompatActivity {
                                                     e = model.getEmail();
                                                     p = model.getPassword();
                                                     //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
-                                                    if (check.equals("ADMIN") && e.equals(email)) {
+                                                   // if (check.equals("ADMIN") && e.equals(email)) {
+                                                    if (e.equals(email)){
 
-                                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                                        // below two lines will put values for
-                                                        // email and password in shared preferences.
-                                                        editor.putString(EMAIL_KEY, email);
-                                                        editor.putString(PASSWORD_KEY, password);
+                                                        if (check.equals("ADMIN")) {
+                                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                                            // below two lines will put values for
+                                                            // email and password in shared preferences.
+                                                            editor.putString(EMAIL_KEY, email);
+                                                            editor.putString(PASSWORD_KEY, password);
 
-                                                        // to save our data with key and value.
-                                                        editor.apply();
+                                                            // to save our data with key and value.
+                                                            editor.apply();
 
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                            SendAdminToNewActivity();
+                                                        }else {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(adminPanall.this, "Not an Admin Account!", Toast.LENGTH_SHORT).show();
+                                                        }
+
+
+                                                    } else{
                                                         progressDialog.dismiss();
-                                                        SendAdminToNewActivity();
-                                                        Toast.makeText(adminPanall.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(adminPanall.this, "Not an Admin Account!", Toast.LENGTH_SHORT).show();
-                                                    }
+                                                       // Toast.makeText(adminPanall.this, "Not an Admin Account!", Toast.LENGTH_SHORT).show();
+                                                  }
 
 
                                                 }

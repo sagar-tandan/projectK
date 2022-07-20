@@ -4,7 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -17,11 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectk.Notification.FcmNotificationsSender;
 import com.example.projectk.model.Routine_Model;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -58,6 +65,12 @@ public class Admin_Routine extends AppCompatActivity {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("ProjectK").child("Routine");
+
+
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+
 
         //Taking class code from previous activity
 
@@ -120,6 +133,8 @@ public class Admin_Routine extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         Toast.makeText(Admin_Routine.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                                         notice_detail.setText("");
+
+                                      // notification();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -149,4 +164,12 @@ public class Admin_Routine extends AppCompatActivity {
 
 
     }
+
+//    private void notification() {
+//
+//        FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all","ROUTINE",
+//                "Routine Updated!!",getApplicationContext(),Admin_Routine.this);
+//        notificationsSender.SendNotifications();
+//
+//    }
 }

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class UserPanalActivity extends AppCompatActivity {
 
@@ -61,6 +62,7 @@ public class UserPanalActivity extends AppCompatActivity {
         assessment = findViewById(R.id.assessment);
         phone = findViewById(R.id.phone);
         log_out = findViewById(R.id.log_out);
+
 
 
 

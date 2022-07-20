@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -115,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         reference = FirebaseDatabase.getInstance().getReference().child("ProjectK").child("LOGIN");
+
+
+
+      //  FirebaseMessaging.getInstance().subscribeToTopic("all");
+
 
 
 
@@ -253,26 +259,34 @@ public class MainActivity extends AppCompatActivity {
                                         e = model.getEmail();
                                         p = model.getPassword();
                                         //  Toast.makeText(MainActivity.this, check, Toast.LENGTH_SHORT).show();
-                                        if (check.equals("USER") && e.equals(email)) {
+                                        if (e.equals(email)) {
 
-                                            progressDialog.dismiss();
+                                            if (check.equals("USER") ){
+                                                progressDialog.dismiss();
 
-                                            SharedPreferences.Editor editor = sharedpreferences0.edit();
+                                                SharedPreferences.Editor editor = sharedpreferences0.edit();
 
-                                            // below two lines will put values for
-                                            // email and password in shared preferences.
-                                            editor.putString(EMAIL_KEY1, email);
-                                            editor.putString(PASSWORD_KEY1, password);
+                                                // below two lines will put values for
+                                                // email and password in shared preferences.
+                                                editor.putString(EMAIL_KEY1, email);
+                                                editor.putString(PASSWORD_KEY1, password);
 
-                                            // to save our data with key and value.
-                                            editor.apply();
+                                                // to save our data with key and value.
+                                                editor.apply();
 
-                                            SendUserToNextActivity();
+                                                SendUserToNextActivity();
 
-                                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                                            }else {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
+                                            }
+
                                         } else {
+
                                             progressDialog.dismiss();
-                                            Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
+                                           // Toast.makeText(MainActivity.this, "Not a User Account!", Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
